@@ -4,7 +4,6 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "expedientes")
@@ -27,13 +26,7 @@ public class Expediente {
 
     private String severidad;
 
-    @Column(name = "fecha_creacion")
-    private LocalDateTime fechaCreacion;
-
     private String descripcion;
 
-    @PrePersist
-    protected void onCreate() {
-        this.fechaCreacion = LocalDateTime.now();
-    }
 }
+

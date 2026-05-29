@@ -17,5 +17,7 @@ public class ExpedienteCreateDTO {
     @NotBlank(message = "El estado inicial es obligatorio")
     private String estado;
 
+    private String severidad;
+
     private String descripcion;
 }

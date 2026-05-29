@@ -3,7 +3,6 @@ package com.conaf.microservicio.registro_expediente.dto;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import java.time.LocalDateTime;
 
 @Data
 @AllArgsConstructor
@@ -15,5 +14,4 @@ public class ExpedienteResponseDTO {
     private String ubicacion;
     private String estado;
     private String severidad;
-    private LocalDateTime fechaCreacion;
 }
