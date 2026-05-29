@@ -1,43 +1,35 @@
 package com.conaf.microservicio.registro_expediente.controller;
 
-import com.conaf.microservicio.registro_expediente.dto.*;
-import com.conaf.microservicio.registro_expediente.service.*;
+import com.conaf.microservicio.registro_expediente.dto.ExpedienteCreateDTO;
+import com.conaf.microservicio.registro_expediente.dto.ExpedienteResponseDTO;
+import com.conaf.microservicio.registro_expediente.service.ExpedienteService;
 import jakarta.validation.Valid;
-import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
 import java.util.List;
 
 @RestController
 @RequestMapping("/api/v1/expedientes")
-@RequiredArgsConstructor
 public class ExpedienteController {
 
-    private final ExpedienteService expedienteService;
+    @Autowired
+    private ExpedienteService service;
 
     @PostMapping
-    public ResponseEntity<Void> crearExpediente(@Valid @RequestBody ExpedienteRequestDTO request) {
-        // Falta esta validación antes de crear
-        expedienteService.validarIncendio(request.getIdIncendio()); 
-        expedienteService.crearExpediente(request);
-        return new ResponseEntity<>(HttpStatus.CREATED);
+    public ResponseEntity<ExpedienteResponseDTO> crear(@Valid @RequestBody ExpedienteCreateDTO dto) {
+        return ResponseEntity.status(HttpStatus.CREATED).body(service.crearExpediente(dto));
     }
 
-    @PostMapping("/{id}/registros")
-    public ResponseEntity<Void> agregarRegistro(@PathVariable Long id, @Valid @RequestBody RegistroRequestDTO request) {
-        expedienteService.agregarRegistro(id, request);
-        return new ResponseEntity<>(HttpStatus.CREATED);
+    @GetMapping("/{codigoCaso}")
+    public ResponseEntity<ExpedienteResponseDTO> obtenerPorCodigo(@PathVariable String codigoCaso) {
+        return ResponseEntity.ok(service.obtenerPorCodigo(codigoCaso));
     }
 
-    @GetMapping("/{id}/bitacora")
-    public ResponseEntity<List<RegistroResponseDTO>> obtenerBitacora(@PathVariable Long id) {
-        return ResponseEntity.ok(expedienteService.obtenerBitacora(id));
-    }
-
-    @PutMapping("/{id}/cerrar")
-    public ResponseEntity<Void> cerrarExpediente(@PathVariable Long id) {
-        expedienteService.cerrarExpediente(id);
-        return ResponseEntity.noContent().build();
+    @GetMapping
+    public ResponseEntity<List<ExpedienteResponseDTO>> listar() {
+        return ResponseEntity.ok(service.listarTodos());
     }
 }

@@ -1,26 +1,39 @@
 package com.conaf.microservicio.registro_expediente.model;
 
 import jakarta.persistence.*;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 import java.time.LocalDateTime;
-import java.util.List;
 
 @Entity
-@Table(name = "Expedientes")
-@Getter @Setter @NoArgsConstructor @AllArgsConstructor @Builder
+@Table(name = "expedientes")
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class Expediente {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(nullable = false, unique = true)
+    private String codigoCaso;
+
     @Column(nullable = false)
-    private Long idIncendio; // Referencia externa (Microservicio de Incendios)
+    private String ubicacion;
 
-    private LocalDateTime fechaApertura;
-    
-    private String estado; // EJ: "ABIERTO", "CERRADO"
+    private String estado;
 
-    @OneToMany(mappedBy = "expediente", cascade = CascadeType.ALL)
-    private List<Registro> bitacora;
+    private String severidad;
+
+    @Column(name = "fecha_creacion")
+    private LocalDateTime fechaCreacion;
+
+    private String descripcion;
+
+    @PrePersist
+    protected void onCreate() {
+        this.fechaCreacion = LocalDateTime.now();
+    }
 }
