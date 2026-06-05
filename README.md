@@ -1,8 +1,8 @@
 GET
-http://localhost:8080/api/registros
+http://localhost:8087/api/registros
 
 GET
-http://localhost:8080/api/registros/{id}
+http://localhost:8087/api/registros/{id}
 
 POST
 http://localhost:8087/api/registros
